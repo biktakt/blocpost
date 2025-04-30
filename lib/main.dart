@@ -5,6 +5,8 @@ import 'package:blocpost/core/bloc/app_init_bloc/app_init_bloc.dart';
 import 'package:blocpost/core/bloc/simple_bloc_observer.dart';
 import 'package:blocpost/core/di/injection.dart' as di;
 import 'package:blocpost/core/router/app_router.dart';
+import 'package:blocpost/core/styles/theme_mode.dart';
+import 'package:blocpost/core/styles/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,7 @@ class AppRoot extends StatelessWidget {
       child: BlocBuilder<AppInitBloc, AppInitBlocState>(
         builder: (context, state) {
           return state.isInitialized
-              ? App()
+              ? AppThemeMode(child: App())
               : const MaterialApp(
                 home: Scaffold(
                   body: Center(child: CircularProgressIndicator()),
@@ -46,10 +48,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Demo App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-      ),
-
+      theme: AppThemeScheme.lightTheme,
+      darkTheme: AppThemeScheme.darkTheme,
+      themeMode: AppThemeMode.of(context)?.themeMode,
       routerConfig: _appRouter.config(),
     );
   }
