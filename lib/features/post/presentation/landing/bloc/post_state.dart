@@ -2,6 +2,7 @@ part of 'post_bloc.dart';
 
 sealed class PostState extends Equatable {
   const PostState({required this.id});
+
   final int id;
 
   @override

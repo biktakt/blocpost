@@ -1,6 +1,7 @@
+import 'package:injectable/injectable.dart';
+
 import 'package:blocpost/features/post/domain/entities/post.dart';
 import 'package:blocpost/features/post/domain/repositories/post_repository.dart';
-import 'package:injectable/injectable.dart';
 
 @injectable
 class GetPosts {

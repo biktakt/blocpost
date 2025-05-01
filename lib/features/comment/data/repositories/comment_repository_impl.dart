@@ -14,9 +14,4 @@ class CommentRepositoryImpl implements CommentRepository {
   Future<List<Comment>> fetchComments({int? postId}) {
     return postRemoteDataSource.fetchComments(postId: postId);
   }
-
-  @override
-  Future<Comment> fetchCommentById(int id) {
-    return postRemoteDataSource.fetchCommentById(id);
-  }
 }

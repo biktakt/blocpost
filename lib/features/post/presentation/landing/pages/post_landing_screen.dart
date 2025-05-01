@@ -45,14 +45,18 @@ class _PostLandingView extends StatelessWidget {
                   postBloc.add(const PostRefresh());
                   return Future.delayed(const Duration(microseconds: 300));
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: PostWidget(
-                    id: state.post.id,
-                    userId: state.post.userId,
-                    title: state.post.title,
-                    post: state.post.body,
-                  ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: PostWidget(
+                        id: state.post.id,
+                        userId: state.post.userId,
+                        title: state.post.title,
+                        post: state.post.body,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               PostLoadError() => Center(

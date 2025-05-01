@@ -6,7 +6,7 @@ import 'package:blocpost/features/comment/data/models/comment_model.dart';
 
 abstract class CommentRemoteDataSource {
   /// Calls the [https://jsonplaceholder.typicode.com/comments] endpoint
-  Future<List<CommentModel>> fetchComments({int? id, int? postId});
+  Future<List<CommentModel>> fetchComments({int? postId});
 }
 
 @LazySingleton(as: CommentRemoteDataSource)
@@ -18,10 +18,9 @@ class CommentRemoteDataSourceImpl
   final Dio _dio;
 
   @override
-  Future<List<CommentModel>> fetchComments({int? id, int? postId}) {
+  Future<List<CommentModel>> fetchComments({int? postId}) {
     return handleListRequest(
-      () =>
-          _dio.get('/comments', queryParameters: {'id': id, 'postId': postId}),
+      () => _dio.get('/comments', queryParameters: {'postId': postId}),
       (json) => CommentModel.fromJson(json),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 
 import 'package:blocpost/features/post/data/datasources/post_remote_data_source.dart';
-import 'package:blocpost/features/post/data/models/post_model.dart';
 import 'package:blocpost/features/post/domain/entities/post.dart';
 import 'package:blocpost/features/post/domain/repositories/post_repository.dart';
 
@@ -17,7 +16,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<PostModel> fetchPostById(int id) {
+  Future<Post> fetchPostById(int id) {
     return postRemoteDataSource.fetchPostById(id);
   }
 }
