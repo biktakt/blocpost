@@ -1,8 +1,7 @@
-import 'dart:io' show HttpStatus;
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
+import 'package:blocpost/core/remote/request_helper.dart';
 import 'package:blocpost/features/post/data/models/post_model.dart';
 
 abstract class PostRemoteDataSource {
@@ -14,42 +13,26 @@ abstract class PostRemoteDataSource {
 }
 
 @LazySingleton(as: PostRemoteDataSource)
-class PostRemoteDataSourceImpl implements PostRemoteDataSource {
+class PostRemoteDataSourceImpl
+    with RequestHelper
+    implements PostRemoteDataSource {
   const PostRemoteDataSourceImpl({required Dio dio}) : _dio = dio;
 
   final Dio _dio;
 
   @override
-  Future<List<PostModel>> fetchPosts() async {
-    try {
-      final response = await _dio.get('/posts');
-      if (response.statusCode == HttpStatus.ok) {
-        return (response.data as List)
-            .map((json) => PostModel.fromJson(json))
-            .toList();
-      }
-
-      throw Exception(
-        'Status Code: ${response.statusCode}, Message: ${response.statusMessage}',
-      );
-    } on Object {
-      rethrow;
-    }
+  Future<List<PostModel>> fetchPosts() {
+    return handleListRequest(
+      () => _dio.get('/posts'),
+      (json) => PostModel.fromJson(json),
+    );
   }
 
   @override
-  Future<PostModel> fetchPostById(int id) async {
-    try {
-      final response = await _dio.get('/posts/$id');
-      if (response.statusCode == HttpStatus.ok) {
-        return PostModel.fromJson(response.data);
-      }
-
-      throw Exception(
-        'Status Code: ${response.statusCode}, Message: ${response.statusMessage}',
-      );
-    } on Object {
-      rethrow;
-    }
+  Future<PostModel> fetchPostById(int id) {
+    return handleRequest(
+      () => _dio.get('/posts/$id'),
+      (json) => PostModel.fromJson(json),
+    );
   }
 }
