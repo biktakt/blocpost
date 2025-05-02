@@ -11,31 +11,28 @@
 part of 'app_router.dart';
 
 /// generated route for
-/// [PostLandingPage]
-class PostLandingRoute extends PageRouteInfo<PostLandingRouteArgs> {
-  PostLandingRoute({
-    Key? key,
-    required int postId,
-    List<PageRouteInfo>? children,
-  }) : super(
-         PostLandingRoute.name,
-         args: PostLandingRouteArgs(key: key, postId: postId),
-         initialChildren: children,
-       );
+/// [CommentsPage]
+class CommentsRoute extends PageRouteInfo<CommentsRouteArgs> {
+  CommentsRoute({Key? key, required int postId, List<PageRouteInfo>? children})
+    : super(
+        CommentsRoute.name,
+        args: CommentsRouteArgs(key: key, postId: postId),
+        initialChildren: children,
+      );
 
-  static const String name = 'PostLandingRoute';
+  static const String name = 'CommentsRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<PostLandingRouteArgs>();
-      return PostLandingPage(key: args.key, postId: args.postId);
+      final args = data.argsAs<CommentsRouteArgs>();
+      return CommentsPage(key: args.key, postId: args.postId);
     },
   );
 }
 
-class PostLandingRouteArgs {
-  const PostLandingRouteArgs({this.key, required this.postId});
+class CommentsRouteArgs {
+  const CommentsRouteArgs({this.key, required this.postId});
 
   final Key? key;
 
@@ -43,7 +40,7 @@ class PostLandingRouteArgs {
 
   @override
   String toString() {
-    return 'PostLandingRouteArgs{key: $key, postId: $postId}';
+    return 'CommentsRouteArgs{key: $key, postId: $postId}';
   }
 }
 

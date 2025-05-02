@@ -9,7 +9,7 @@ class GetComments {
 
   final CommentRepository repository;
 
-  Future<List<Comment>> call({int? postId}) async {
+  Future<List<Comment>> call({required int postId}) async {
     return await repository.fetchComments(postId: postId);
   }
 }

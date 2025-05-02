@@ -30,7 +30,7 @@ class _PostListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        title: const Text('Postbloc'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: BlocBuilder<PostsBloc, PostsState>(
@@ -45,12 +45,7 @@ class _PostListView extends StatelessWidget {
                   itemBuilder:
                       (context, index) => Padding(
                         padding: const EdgeInsets.all(8),
-                        child: PostCardWidget(
-                          id: state.posts[index].id,
-                          userId: state.posts[index].userId,
-                          title: state.posts[index].title,
-                          post: state.posts[index].body,
-                        ),
+                        child: PostCardWidget(post: state.posts[index]),
                       ),
                   itemCount: state.posts.length,
                 ),

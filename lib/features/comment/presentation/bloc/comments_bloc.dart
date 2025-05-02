@@ -12,14 +12,14 @@ part 'comments_event.dart';
 part 'comments_state.dart';
 
 class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
-  CommentsBloc({this.postId, required GetComments getComments})
+  CommentsBloc({required this.postId, required GetComments getComments})
     : _getComments = getComments,
       super(CommentsInitial(postId: postId)) {
     on<CommentsEvent>(_onFetch, transformer: droppable());
   }
 
   final GetComments _getComments;
-  final int? postId;
+  final int postId;
 
   Future<void> _onFetch(
     CommentsEvent event,

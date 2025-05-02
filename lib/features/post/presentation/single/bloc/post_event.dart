@@ -10,7 +10,3 @@ sealed class PostEvent extends Equatable {
 class PostFetch extends PostEvent {
   const PostFetch();
 }
-
-class PostRefresh extends PostEvent {
-  const PostRefresh();
-}
