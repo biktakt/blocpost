@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:blocpost/core/di/injection.dart';
+import 'package:blocpost/core/presentation/widgets/shimmer/shimmer.dart';
 import 'package:blocpost/features/post/domain/usecases/get_posts.dart';
 import 'package:blocpost/features/post/presentation/list/bloc/posts_bloc.dart';
+import 'package:blocpost/features/post/presentation/list/widgets/post_card_shimmer_widget.dart';
 import 'package:blocpost/features/post/presentation/list/widgets/post_card_widget.dart';
 
 @RoutePage()
@@ -33,41 +35,50 @@ class _PostListView extends StatelessWidget {
         title: const Text('Postbloc'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
-      body: BlocBuilder<PostsBloc, PostsState>(
-        builder:
-            (context, state) => switch (state) {
-              PostsLoaded() => RefreshIndicator(
-                onRefresh: () {
-                  postBloc.add(const PostsRefresh());
-                  return Future.delayed(const Duration(microseconds: 300));
-                },
-                child: ListView.builder(
-                  itemBuilder:
-                      (context, index) => Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: PostCardWidget(post: state.posts[index]),
+      body: Shimmer(
+        child: BlocBuilder<PostsBloc, PostsState>(
+          builder:
+              (context, state) => switch (state) {
+                PostsLoaded() => RefreshIndicator(
+                  onRefresh: () {
+                    postBloc.add(const PostsRefresh());
+                    return Future.delayed(const Duration(microseconds: 300));
+                  },
+                  child: ListView.builder(
+                    itemBuilder:
+                        (context, index) => Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: PostCardWidget(post: state.posts[index]),
+                        ),
+                    itemCount: state.posts.length,
+                  ),
+                ),
+                PostsLoadError() => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        state.message,
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                  itemCount: state.posts.length,
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () => postBloc.add(const PostsFetch()),
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              PostsLoadError() => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.message,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => postBloc.add(const PostsFetch()),
-                      child: const Text('Retry'),
-                    ),
-                  ],
+                _ => ListView.builder(
+                  itemBuilder:
+                      (_, __) => const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: PostCardShimmerWidget(),
+                      ),
+                  itemCount: 3,
                 ),
-              ),
-              _ => const Center(child: CircularProgressIndicator()),
-            },
+              },
+        ),
       ),
     );
   }

@@ -50,7 +50,7 @@ class App extends StatelessWidget {
       title: 'Demo App',
       theme: AppThemeScheme.lightTheme,
       darkTheme: AppThemeScheme.darkTheme,
-      themeMode: AppThemeMode.of(context)?.themeMode,
+      themeMode: AppThemeMode.of(context),
       routerConfig: _appRouter.config(),
     );
   }

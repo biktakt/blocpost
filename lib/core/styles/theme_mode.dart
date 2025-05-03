@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class ThemeModeController {
-  ThemeMode get themeMode;
-  void switchTheme(ThemeMode themeMode);
-}
-
 @immutable
 class AppThemeMode extends StatefulWidget {
   const AppThemeMode({
@@ -17,8 +12,11 @@ class AppThemeMode extends StatefulWidget {
   final Widget child;
   final ThemeMode themeMode;
 
-  static ThemeModeController? of(BuildContext context) =>
-      _AppThemeModeScope.of(context)?.state;
+  static void switchTheme(BuildContext context, ThemeMode mode) =>
+      _AppThemeModeScope.of(context)?.state.switchTheme(mode);
+
+  static ThemeMode? of(BuildContext context) =>
+      _AppThemeModeScope.of(context)?.state.themeMode;
 
   @override
   State<AppThemeMode> createState() => _AppThemeModeState();
@@ -31,14 +29,11 @@ class AppThemeMode extends StatefulWidget {
       );
 }
 
-class _AppThemeModeState extends State<AppThemeMode>
-    implements ThemeModeController {
+class _AppThemeModeState extends State<AppThemeMode> {
   ThemeMode _themeMode = ThemeMode.system;
 
-  @override
   ThemeMode get themeMode => _themeMode;
 
-  @override
   void switchTheme(ThemeMode themeMode) {
     setState(() {
       _themeMode = themeMode;
@@ -49,21 +44,6 @@ class _AppThemeModeState extends State<AppThemeMode>
   void initState() {
     super.initState();
     _themeMode = widget.themeMode;
-  }
-
-  @override
-  void didUpdateWidget(AppThemeMode oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
