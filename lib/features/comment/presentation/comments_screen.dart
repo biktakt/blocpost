@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:blocpost/core/di/injection.dart';
+import 'package:blocpost/core/presentation/widgets/shimmer/shimmer.dart';
 import 'package:blocpost/features/comment/domain/usecases/get_comments.dart';
 import 'package:blocpost/features/comment/presentation/bloc/comments_bloc.dart';
+import 'package:blocpost/features/comment/presentation/widgets/comment_card_shimmer_widget.dart';
 import 'package:blocpost/features/comment/presentation/widgets/comment_card_widget.dart';
 import 'package:blocpost/features/post/domain/entities/post.dart';
 import 'package:blocpost/features/post/domain/usecases/get_post_by_id.dart';
+import 'package:blocpost/features/post/presentation/list/widgets/post_card_shimmer_widget.dart';
 import 'package:blocpost/features/post/presentation/single/bloc/post_bloc.dart';
 import 'package:blocpost/features/post/presentation/single/widgets/post_widget.dart';
 
@@ -68,7 +71,12 @@ class _CommentsView extends StatelessWidget {
               message: state.message,
               onRetry: () => postBloc.add(const PostFetch()),
             ),
-            _ => const Center(child: CircularProgressIndicator()),
+            _ => const Shimmer(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: PostCardShimmerWidget(),
+              ),
+            ),
           };
         },
       ),
@@ -154,7 +162,12 @@ class _CommentsSliver extends StatelessWidget {
               ),
             ),
             _ => const SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()),
+              child: Shimmer(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: CommentCardShimmerWidget(),
+                ),
+              ),
             ),
           },
     );
